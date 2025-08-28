@@ -1,8 +1,9 @@
 package br.com.upvisibility.usuario.controller;
 
 import br.com.upvisibility.usuario.business.UsuarioService;
+import br.com.upvisibility.usuario.business.dto.EnderecoDTO;
+import br.com.upvisibility.usuario.business.dto.TelefoneDTO;
 import br.com.upvisibility.usuario.business.dto.UsuarioDTO;
-import br.com.upvisibility.usuario.infrastructure.entity.Usuario;
 import br.com.upvisibility.usuario.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +36,35 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Usuario> buscarUsuarioPorEmail(@RequestParam("email") String email) {
+    public ResponseEntity<UsuarioDTO> buscarUsuarioPorEmail(@RequestParam("email") String email) {
         return ResponseEntity.ok(usuarioService.buscarUsuarioPorEmail(email));
     }
+
+    @PutMapping
+    public ResponseEntity<UsuarioDTO> atualizaDadosUsuario(
+            @RequestBody UsuarioDTO request,
+            @RequestHeader("Authorization") String token
+            ) {
+        return ResponseEntity.ok(usuarioService.atualizaDadosUsuarios(token, request));
+    }
+
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizaEndereco(
+            @RequestBody EnderecoDTO request,
+            @RequestParam("id") Long id
+    ) {
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, request));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizaTelefone(
+            @RequestBody TelefoneDTO request,
+            @RequestParam("id") Long id
+    ) {
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, request));
+    }
+
 
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deletarUsuarioPorEmail(@PathVariable("email") String email) {
