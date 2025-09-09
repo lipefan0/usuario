@@ -71,4 +71,20 @@ public class UsuarioController {
         usuarioService.deletarUsuarioPorEmail(email);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> cadastraEndereco(
+            @RequestBody EnderecoDTO request,
+            @RequestHeader("Authorization") String token
+    ) {
+        return ResponseEntity.ok(usuarioService.cadastroEndereco(token, request));
+    }
+
+    @PostMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> cadastraTelefone(
+            @RequestBody TelefoneDTO request,
+            @RequestHeader("Authorization") String token
+    ) {
+        return ResponseEntity.ok(usuarioService.cadastroTelefone(token, request));
+    }
 }
